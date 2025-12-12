@@ -1,13 +1,14 @@
-#[#[derive(Copy, Clone, Default)]]
+use std::fmt::{Display, Formatter, Result};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub};
 
 // Ray tracers can use either f32 of f64 - its all preference.
-// Derive attribute asks the compiler to implement the Copy trait for Vec3.
+// Derive attribute asks the compiler to implement the Copy trait for Vec3
 // It changes the variable binding from move semantics to copy semantics.
 //
 // Helpful for reusing and useassing Vec3 variables without borrowing,
 // making operations easier.
-//
-//
+
+#[derive(Copy, Clone, Default)]
 pub struct Vec3 {
     e: [f64; 3],
 }
@@ -28,7 +29,45 @@ impl Vec3 {
     pub fn z(&self) -> f64 {
         self.e[2]
     }
+
+    pub fn length(&self) -> f64 {
+        f64::sqrt(self.length_squared())
+    }
+
+    pub fn length_squared(&self) -> f64 {
+        self.e[0] * self.e[0] + self.e[1] * self.e[1] + self.e[2] * self.e[2]
+    }
 }
 
 // Type alias
 pub type Point3 = Vec3;
+
+// Format the output
+impl Display for Vec3 {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "{} {} {}", self.e[0], self.e[1], self.e[2])
+    }
+}
+
+// -Vec3
+impl Neg for Vec3 {
+    type Output = Vec3;
+
+    fn neg(self) -> Vec3 {
+        Vec3::new(-self.x(), -self.y(), -self.z())
+    }
+}
+
+// Vec3 += Vec3
+impl AddAssign for Vec3 {
+    fn add_assign(&mut self, v: Vec3) {
+        *self = *self + v;
+    }
+}
+
+// Vec3 *= f64
+impl MulAssign<f64> for Vec3 {
+    fn mul_assign(&mut self, t: f64) {
+        *self = *self * t;
+    }
+}
