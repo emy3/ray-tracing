@@ -5,7 +5,7 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub};
 // Derive attribute asks the compiler to implement the Copy trait for Vec3
 // It changes the variable binding from move semantics to copy semantics.
 //
-// Helpful for reusing and useassing Vec3 variables without borrowing,
+// Helpful for reusing and using Vec3 variables without borrowing,
 // making operations easier.
 
 #[derive(Copy, Clone, Default)]
@@ -69,6 +69,13 @@ impl AddAssign for Vec3 {
 impl MulAssign<f64> for Vec3 {
     fn mul_assign(&mut self, t: f64) {
         *self = *self * t;
+    }
+}
+
+// Vec3 /= f64
+impl DivAssign<f64> for Vec3 {
+    fn div_assign(&mut self, t: f64) {
+        *self = *self / t;
     }
 }
 
