@@ -7,6 +7,11 @@ use ray::Ray;
 use std::io;
 use vec3::{Point3, Vec3};
 
+fn hit_sphere(center: Point3, radius: f64, r: &Ray) -> bool {
+    let oc = r.origin() - center;
+    let a = vec3::dot(r.direction(), r.direction());
+}
+
 fn ray_color(r: &Ray) -> Color {
     let unit_direction = vec3::unit_vector(r.direction());
     let t = 0.5 * (unit_direction.y() + 1.0);
